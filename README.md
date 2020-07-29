@@ -53,3 +53,16 @@ Implement error handling for creating new entries. The request is not allowed to
 - The name already exists in the phonebook
 
 Respond to requests like these with the appropriate status code, and also send back information that explains the reason for the error.
+
+## Step 7
+
+Add the [morgan](https://github.com/expressjs/morgan 'expressjs/morgan') middleware to your application for logging. Configure it to log messages to your console based on the _tiny_ configuration.
+
+## Step 8
+
+Configure morgan so that it also shows the data sent in HTTP POST requests
+
+This exercise can be completed in a few different ways. One of the possible solutions utilizes these two techniques:
+
+- [creating new tokens](https://github.com/expressjs/morgan#creating-new-tokens 'Morgan with new Tokens')
+- [JSON.stringify](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify 'JSON Stringify')
