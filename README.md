@@ -66,3 +66,9 @@ This exercise can be completed in a few different ways. One of the possible solu
 
 - [creating new tokens](https://github.com/expressjs/morgan#creating-new-tokens 'Morgan with new Tokens')
 - [JSON.stringify](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify 'JSON Stringify')
+
+## Step 9
+
+Make the backend work with the frontend from the previous part. Do not implement the functionality for making changes to the phone numbers yet, that will be implemented in exercise 3.17.
+
+You will probably have to do some small changes to the frontend, at least to the URLs for the backend.

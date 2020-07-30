@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 
 app.use(express.json());
+app.use(express.static('build'));
 app.use(cors());
 morgan.token('body', (req, res) => {
   const body = req.body;
@@ -43,12 +44,6 @@ const generateId = () => {
   const max = Math.floor(500000);
   return Math.floor(Math.random() * (max - min)) + min;
 };
-
-app.get('/', (req, res) => {
-  res.send(
-    `<h1>View Phonebook persons <a href="http://localhost:${PORT}/api/persons">here</a></h1>`
-  );
-});
 
 app.get('/info', (req, res) => {
   const receiveTime = new Date();
