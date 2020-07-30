@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const PORT = process.env.PORT || 3001;
 const morgan = require('morgan');
 const cors = require('cors');
 
@@ -45,7 +46,7 @@ const generateId = () => {
 
 app.get('/', (req, res) => {
   res.send(
-    '<h1>View Phonebook persons <a href="http://localhost:3001/api/persons">here</a></h1>'
+    `<h1>View Phonebook persons <a href="http://localhost:${PORT}/api/persons">here</a></h1>`
   );
 });
 
@@ -99,7 +100,6 @@ app.post('/api/persons', (req, res) => {
   res.json(person);
 });
 
-const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
