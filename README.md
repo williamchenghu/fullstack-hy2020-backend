@@ -72,3 +72,9 @@ This exercise can be completed in a few different ways. One of the possible solu
 Make the backend work with the frontend from the previous part. Do not implement the functionality for making changes to the phone numbers yet, that will be implemented in exercise 3.17.
 
 You will probably have to do some small changes to the frontend, at least to the URLs for the backend.
+
+## Step 10
+
+Deploy the backend to the internet, for example to Heroku.
+
+https://thawing-fjord-84910.herokuapp.com/api/persons
