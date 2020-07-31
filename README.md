@@ -4,7 +4,7 @@ Backend part of Full Stack Open Course 2020 at University of Helsinki
 
 This repo is used for excercises handing-in.
 
-## Exercises 3.1.-3.8.
+## Exercises 3.1.-3.12.
 
 Run the exercise with:
 
@@ -78,3 +78,38 @@ You will probably have to do some small changes to the frontend, at least to the
 Deploy the backend to the internet, for example to Heroku.
 
 https://thawing-fjord-84910.herokuapp.com/api/persons
+
+## 3.11 Phonebook Full Stack
+
+Generate a production build of your frontend, and add it to the internet application.
+
+**NB** Make sure the directory build is not gitignored
+
+Also make sure that the frontend still works locally.
+
+## 3.12 Command-line database
+
+Create a cloud-based MongoDB database for the phonebook application with MongoDB Atlas.
+
+Create a _mongo.js_ file in the project directory, that can be used for adding entries to the phonebook, and for listing all of the existing entries in the phonebook.
+
+The application should work as follows. You use the program by passing three command-line arguments (the first is the _database password_, 2nd is _name_, 3rd is _number_)
+
+```
+node mongo.js DB_PASSWORD Anna 040-1234556
+```
+
+As a result, the application will print
+
+```
+added Anna number 040-1234556 to phonebook
+```
+
+If the password is the only parameter given to the program, then the program should display all of the entries in the phonebook.
+
+```
+phonebook:
+Anna 040-1234556
+Arto Vihavainen 045-1232456
+Ada Lovelace 040-1231236
+```
