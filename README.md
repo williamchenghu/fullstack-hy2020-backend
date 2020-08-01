@@ -4,7 +4,7 @@ Backend part of Full Stack Open Course 2020 at University of Helsinki
 
 This repo is used for excercises handing-in.
 
-## Exercises 3.1.-3.12.
+## Exercises 3.1.-3.14.
 
 Run the exercise with:
 
@@ -95,21 +95,33 @@ Create a _mongo.js_ file in the project directory, that can be used for adding e
 
 The application should work as follows. You use the program by passing three command-line arguments (the first is the _database password_, 2nd is _name_, 3rd is _number_)
 
-```
+```javascript
 node mongo.js DB_PASSWORD Anna 040-1234556
 ```
 
 As a result, the application will print
 
-```
+```javascript
 added Anna number 040-1234556 to phonebook
 ```
 
 If the password is the only parameter given to the program, then the program should display all of the entries in the phonebook.
 
-```
+```javascript
 phonebook:
 Anna 040-1234556
 Arto Vihavainen 045-1232456
 Ada Lovelace 040-1231236
 ```
+
+## 3.13 Phonebook database, step1
+
+Change the fetching of all phonebook entries so that the data is _fetched from the database_.
+
+In the following exercises, write all Mongoose-specific code into its own module, just like we did in the chapter [Database configuration into its own module](https://fullstackopen.com/en/part3/saving_data_to_mongo_db#database-configuration-into-its-own-module).
+
+## 3.14 Phonebook database, step2
+
+Change the backend so that new numbers are _saved to the database_. Verify that your frontend still works after the changes.
+
+At this point, you can choose to simply allow users to create all phonebook entries. At this stage, the phonebook can have multiple entries for a person with the same name.

@@ -56,6 +56,9 @@ Temporary Items
 # production
 #/build
 
+# environment
+.env
+
 # misc
 .DS_Store
 .env.local
