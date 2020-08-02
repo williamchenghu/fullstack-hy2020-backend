@@ -51,25 +51,24 @@ app.delete('/api/persons/:id', (req, res, next) => {
     .catch((error) => next(error));
 });
 
-app.post('/api/persons', async (req, res) => {
+app.post('/api/persons', async (req, res, next) => {
   const body = req.body;
-
-  const person = new Person({
-    name: body.name,
-    number: body.number,
-  });
 
   const fetchPerson = () => Person.find({ name: body.name });
   const duplicatedPerson = await fetchPerson();
 
-  if (!body.name || !body.number) {
-    return res.status(400).json({ error: 'missing name or number' }).end();
-  }
-
   if (duplicatedPerson.length) {
     res.status(409).json({ error: 'name must be unique' }).end();
   } else {
-    person.save().then((savedPerson) => res.json(savedPerson));
+    const person = new Person({
+      name: body.name,
+      number: body.number,
+    });
+
+    person
+      .save()
+      .then((savedPerson) => res.json(savedPerson))
+      .catch((error) => next(error));
   }
 });
 
@@ -96,8 +95,12 @@ app.use(unknownEndpoint);
 
 const errorHandler = (error, req, res, next) => {
   console.error(error.message);
-  error.name === 'CastError' &&
-    res.status(400).send({ error: 'malformatted id' });
+
+  if (error.name === 'CastError') {
+    return res.status(400).send({ error: 'malformatted id' });
+  } else if (error.name === 'ValidationError') {
+    return res.status(400).json({ error: error.message });
+  }
 
   next(error);
 };
