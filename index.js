@@ -6,8 +6,8 @@ const morgan = require('morgan');
 const Person = require('./models/person');
 const cors = require('cors');
 
-app.use(express.json());
 app.use(express.static('build'));
+app.use(express.json());
 app.use(cors());
 morgan.token('body', (req, res) => {
   const body = req.body;
@@ -37,37 +37,71 @@ app.get('/api/persons', (req, res) => {
   Person.find({}).then((person) => res.json(person));
 });
 
-app.get('/api/persons/:id', (req, res) => {
-  Person.findById(req.params.id).then((person) => res.json(person));
+app.get('/api/persons/:id', (req, res, next) => {
+  Person.findById(req.params.id)
+    .then((person) => {
+      person ? res.json(person) : res.status(404).end();
+    })
+    .catch((error) => next(error));
 });
 
-// app.delete('/api/persons/:id', (req, res) => {
-//   const id = Number(req.params.id);
-//   persons = persons.filter((e) => e.id !== id);
+app.delete('/api/persons/:id', (req, res, next) => {
+  Person.findByIdAndRemove(req.params.id)
+    .then((result) => res.status(204).end())
+    .catch((error) => next(error));
+});
 
-//   res.status(204).end();
-// });
-
-app.post('/api/persons', (req, res) => {
+app.post('/api/persons', async (req, res) => {
   const body = req.body;
-  // console.log('requBodyName', body.name);
-  // const duplicatedPerson = () =>
-  //   Person.find({ name: body.name }).then((e) => console.log(e));
-  // const fetchDuplication = await duplicatedPerson();
-  // console.log('duplication', fetchDuplication);
-
-  // (!body.name || !body.number) &&
-  //   res.status(400).json({ error: 'name or number is missing' });
-
-  // fetchDuplication && res.status(409).json({ error: 'name must be unique' });
 
   const person = new Person({
     name: body.name,
     number: body.number,
   });
 
-  person.save().then((savedPerson) => res.json(savedPerson));
+  const fetchPerson = () => Person.find({ name: body.name });
+  const duplicatedPerson = await fetchPerson();
+
+  if (!body.name || !body.number) {
+    return res.status(400).json({ error: 'missing name or number' }).end();
+  }
+
+  if (duplicatedPerson.length) {
+    res.status(409).json({ error: 'name must be unique' }).end();
+  } else {
+    person.save().then((savedPerson) => res.json(savedPerson));
+  }
 });
+
+app.put('/api/persons/:id', (req, res, next) => {
+  const body = req.body;
+
+  Person.findByIdAndUpdate(
+    req.params.id,
+    {
+      name: body.name,
+      number: body.number,
+    },
+    { new: true }
+  )
+    .then((updatedPerson) => res.json(updatedPerson))
+    .catch((error) => next(error));
+});
+
+const unknownEndpoint = (req, res) => {
+  res.status(404).send({ error: 'unknown endpoint' });
+};
+// handler of requests with unknown endpoint
+app.use(unknownEndpoint);
+
+const errorHandler = (error, req, res, next) => {
+  console.error(error.message);
+  error.name === 'CastError' &&
+    res.status(400).send({ error: 'malformatted id' });
+
+  next(error);
+};
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
