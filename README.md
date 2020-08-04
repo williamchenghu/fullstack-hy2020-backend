@@ -168,3 +168,9 @@ connected to MongoDB
 Expand the validation so that the name stored in the database has to be at least three characters long, and the phone number must have at least 8 digits.
 
 Expand the frontend so that it displays some form of error message when a validation error occurs. Error handling can be implemented by adding a _catch_ block.
+
+## 3.21 Deploying the database backend to production
+
+Generate a new "full stack" version of the application by creating a new production build of the frontend, and copy it to the backend repository. Verify that everything works locally by using the entire application from the address https://localhost:3001.
+
+Push the latest version to Heroku and verify that everything works there as well.
