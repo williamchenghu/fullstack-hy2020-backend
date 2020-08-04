@@ -4,7 +4,7 @@ Backend part of Full Stack Open Course 2020 at University of Helsinki
 
 This repo is used for excercises handing-in.
 
-## Exercises 3.1.-3.21.
+## Exercises 3.1.-3.22.
 
 Run the exercise with:
 
@@ -174,3 +174,7 @@ Expand the frontend so that it displays some form of error message when a valida
 Generate a new "full stack" version of the application by creating a new production build of the frontend, and copy it to the backend repository. Verify that everything works locally by using the entire application from the address https://localhost:3001.
 
 Push the latest version to Heroku and verify that everything works there as well.
+
+## 3.22 Lint configuration
+
+Add ESlint to your application and fix all the warnings.
