@@ -51,40 +51,42 @@ app.delete('/api/persons/:id', (req, res, next) => {
     .catch((error) => next(error));
 });
 
-app.post('/api/persons', async (req, res, next) => {
+app.post('/api/persons', (req, res, next) => {
   const body = req.body;
+  const person = new Person({
+    name: body.name,
+    number: body.number,
+  });
 
-  const fetchPerson = () => Person.find({ name: body.name });
-  const duplicatedPerson = await fetchPerson();
-
-  if (duplicatedPerson.length) {
-    res.status(409).json({ error: 'name must be unique' }).end();
-  } else {
-    const person = new Person({
-      name: body.name,
-      number: body.number,
-    });
-
-    person
-      .save()
-      .then((savedPerson) => savedPerson.toJSON())
-      .then((savedAndFormattedNote) => res.json(savedAndFormattedNote))
-      .catch((error) => next(error));
-  }
+  person
+    .save()
+    .then((savedPerson) => savedPerson.toJSON())
+    .then((savedAndFormattedNote) => res.json(savedAndFormattedNote))
+    .catch((error) => next(error));
 });
 
 app.put('/api/persons/:id', (req, res, next) => {
   const body = req.body;
 
-  Person.findByIdAndUpdate(
-    req.params.id,
+  Person.findOneAndUpdate(
+    { _id: body.id },
     {
       name: body.name,
       number: body.number,
     },
-    { new: true }
+    {
+      new: true,
+      runValidators: true,
+      context: 'query',
+    }
   )
-    .then((updatedPerson) => res.json(updatedPerson))
+    .then((updatedPerson) =>
+      updatedPerson
+        ? res.json(updatedPerson)
+        : res.status(404).send({
+            error: `Information of ${body.name} does not exist, perhaps already been removed from server.`,
+          })
+    )
     .catch((error) => next(error));
 });
 
@@ -99,6 +101,12 @@ const errorHandler = (error, req, res, next) => {
 
   if (error.name === 'CastError') {
     return res.status(400).send({ error: 'malformatted id' });
+  }
+
+  if (
+    Object.entries(error.errors).some(([key, value]) => value.kind === 'unique')
+  ) {
+    return res.status(409).json({ error: error.message });
   } else if (error.name === 'ValidationError') {
     return res.status(400).json({ error: error.message });
   }

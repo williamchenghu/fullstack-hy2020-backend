@@ -4,7 +4,7 @@ Backend part of Full Stack Open Course 2020 at University of Helsinki
 
 This repo is used for excercises handing-in.
 
-## Exercises 3.1.-3.18.
+## Exercises 3.1.-3.21.
 
 Run the exercise with:
 
@@ -147,3 +147,24 @@ Verify that the frontend works after making your changes.
 ## 3.18 Phonebook database, step6
 
 Update the handling of the _api/persons/:id_ and _info_ routes to use the database, and verify that they work directly with the browser, Postman, or VS Code REST client.
+
+## 3.19 Phonebook database, step7
+
+Add validation to your phonebook application, that will make sure that a newly added person has a unique name.
+
+Mongoose does not offer a built-in validator for this purpose. Install the mongoose-unique-validator package with npm and use it instead.
+
+If an HTTP POST request tries to add a name that is already in the phonebook, the server must respond with an appropriate status code and error message.
+
+**NB:** unique-validator causes a warning to be printed to the console, find out how to get rid of the warning.
+
+```
+(node:49251) DeprecationWarning: collection.ensureIndex is deprecated. Use createIndexes instead.
+connected to MongoDB
+```
+
+## 3.20 Phonebook database, step8
+
+Expand the validation so that the name stored in the database has to be at least three characters long, and the phone number must have at least 8 digits.
+
+Expand the frontend so that it displays some form of error message when a validation error occurs. Error handling can be implemented by adding a _catch_ block.
